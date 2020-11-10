@@ -221,7 +221,7 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
         if captureSession.canAddOutput(movieFileOutput) {
             captureSession.addOutput(movieFileOutput)
         } else {
-            print("Couldn't add moview file input to the session.")
+            print("Couldn't add movie file input to the session.")
             setupResult = .configurationFailed
             captureSession.commitConfiguration()
             return
@@ -230,7 +230,7 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
         if captureSession.canAddOutput(movieDataOutput) {
             captureSession.addOutput(movieDataOutput)
         } else {
-            print("Couldn't add moview data input to the session.")
+            print("Couldn't add movie data input to the session.")
             setupResult = .configurationFailed
             captureSession.commitConfiguration()
             return
