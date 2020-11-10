@@ -25,10 +25,6 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
 
     var outputURL: URL!
     
-    var windowOrientation: UIInterfaceOrientation {
-        return view.window?.windowScene?.interfaceOrientation ?? .unknown
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
