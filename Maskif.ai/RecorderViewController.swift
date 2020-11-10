@@ -28,8 +28,6 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
     }
     
     private let session = AVCaptureSession()
-    private var isSessionRunning = false
-    private var selectedSemanticSegmentationMatteTypes = [AVSemanticSegmentationMatte.MatteType]()
     
     // Communicate with the session and other session objects on this queue.
     private let sessionQueue = DispatchQueue(label: "session queue")
@@ -101,7 +99,6 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
             switch self.setupResult {
             case .success:
                 self.captureSession.startRunning()
-                self.isSessionRunning = self.captureSession.isRunning
             case .notAuthorized:
                 DispatchQueue.main.async {
                     let changePrivacySetting = "Maskif.ai doesn't have permission to use the camera, please change privacy settings"
@@ -143,7 +140,6 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
         sessionQueue.async {
             if self.setupResult == .success {
                 self.captureSession.stopRunning()
-                self.isSessionRunning = self.captureSession.isRunning
             }
         }
         
