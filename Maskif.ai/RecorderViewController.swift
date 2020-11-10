@@ -36,6 +36,7 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
             setupPreview()
             startSession()
         }
+        setUpButton()
     }
 
     func setupPreview() {
