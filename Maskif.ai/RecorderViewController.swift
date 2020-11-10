@@ -13,7 +13,7 @@ import AVFoundation
 // https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/avcam_building_a_camera_app
 class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
     @IBOutlet var cameraPreviewView: UIView!
-    @IBOutlet var recordButton: UIButton!
+    @IBOutlet var recordButton: RecordButton!
 
     let captureSession = AVCaptureSession()
 
@@ -32,7 +32,7 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
             setupPreview()
             startSession()
         }
-        setUpButton()
+        recordButton.delegate = self
     }
 
     func setupPreview() {
@@ -41,15 +41,6 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
         previewLayer.frame = cameraPreviewView.bounds
         previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         cameraPreviewView.layer.addSublayer(previewLayer)
-    }
-
-    func setUpButton() {
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: 140, weight: .bold, scale: .large)
-        let notRecordingImage = UIImage(systemName: "record.circle", withConfiguration: largeConfig)
-        let isRecordingImage = UIImage(systemName: "record.circle.fill", withConfiguration: largeConfig)
-        recordButton.setImage(notRecordingImage, for: .normal)
-        recordButton.setImage(isRecordingImage, for: .selected)
-        recordButton.tintColor = recordButton.isSelected ? .systemRed : .systemGray
     }
     // MARK: - Setup Camera
 
@@ -114,14 +105,7 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
             default:
                 orientation = AVCaptureVideoOrientation.landscapeRight
         }
-
         return orientation
-    }
-
-    @IBAction func recordButtonTapped(_ sender: Any) {
-        startRecording()
-        recordButton.isSelected = !recordButton.isSelected
-        recordButton.tintColor = recordButton.isSelected ? .systemRed : .systemGray
     }
 
     func tempURL() -> URL? {
@@ -136,6 +120,7 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
     }
 
     func startRecording() {
+        print("RECORDING START")
         if movieOutput.isRecording == false {
             let connection = movieOutput.connection(with: AVMediaType.video)
 
@@ -183,5 +168,11 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
 //            let videoRecorded = outputURL! as URL
 //            performSegue(withIdentifier: "showVideo", sender: videoRecorded)
         }
+    }
+}
+
+extension RecorderViewController: RecordButtonDelegate {
+    func recordButtonTapped(_ button: RecordButton) {
+        startRecording()
     }
 }
