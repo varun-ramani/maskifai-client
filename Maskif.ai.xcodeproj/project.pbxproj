@@ -14,7 +14,8 @@
 		E34AD292255A3ED500D7C55D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E34AD291255A3ED500D7C55D /* Assets.xcassets */; };
 		E34AD295255A3ED500D7C55D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E34AD293255A3ED500D7C55D /* LaunchScreen.storyboard */; };
 		E3D42244255AE4F900199097 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D42243255AE4F900199097 /* RecordButton.swift */; };
-		E3D75205255A428100187EE2 /* AVFoundationImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D75204255A428100187EE2 /* AVFoundationImplementation.swift */; };
+		E3D42247255AF12000199097 /* AVCaptureVideoOrientation+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D42246255AF12000199097 /* AVCaptureVideoOrientation+Init.swift */; };
+		E3D4224A255AF18D00199097 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D42249255AF18D00199097 /* PreviewView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +28,8 @@
 		E34AD294255A3ED500D7C55D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E34AD296255A3ED500D7C55D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3D42243255AE4F900199097 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
-		E3D75204255A428100187EE2 /* AVFoundationImplementation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVFoundationImplementation.swift; sourceTree = "<group>"; };
+		E3D42246255AF12000199097 /* AVCaptureVideoOrientation+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVCaptureVideoOrientation+Init.swift"; sourceTree = "<group>"; };
+		E3D42249255AF18D00199097 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +70,8 @@
 				E34AD291255A3ED500D7C55D /* Assets.xcassets */,
 				E34AD293255A3ED500D7C55D /* LaunchScreen.storyboard */,
 				E34AD296255A3ED500D7C55D /* Info.plist */,
-				E3D75204255A428100187EE2 /* AVFoundationImplementation.swift */,
+				E3D42246255AF12000199097 /* AVCaptureVideoOrientation+Init.swift */,
+				E3D42249255AF18D00199097 /* PreviewView.swift */,
 			);
 			path = Maskif.ai;
 			sourceTree = "<group>";
@@ -145,8 +148,9 @@
 			files = (
 				E34AD28D255A3ED200D7C55D /* RecorderViewController.swift in Sources */,
 				E34AD289255A3ED200D7C55D /* AppDelegate.swift in Sources */,
-				E3D75205255A428100187EE2 /* AVFoundationImplementation.swift in Sources */,
+				E3D4224A255AF18D00199097 /* PreviewView.swift in Sources */,
 				E34AD28B255A3ED200D7C55D /* SceneDelegate.swift in Sources */,
+				E3D42247255AF12000199097 /* AVCaptureVideoOrientation+Init.swift in Sources */,
 				E3D42244255AE4F900199097 /* RecordButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

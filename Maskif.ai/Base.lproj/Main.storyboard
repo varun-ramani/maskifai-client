@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="landscape" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,15 +13,15 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="RecorderViewController" customModule="Maskif_ai" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9jR-ij-mAW">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9jR-ij-mAW" customClass="PreviewView" customModule="Maskif_ai" customModuleProvider="target">
+                                <rect key="frame" x="44" y="0.0" width="808" height="414"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dzZ-AD-3p9" customClass="RecordButton" customModule="Maskif_ai" customModuleProvider="target">
-                                <rect key="frame" x="177" y="802" width="60" height="60"/>
+                                <rect key="frame" x="418" y="333" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="7rk-IQ-ikB"/>
                                     <constraint firstAttribute="width" constant="60" id="xSi-G9-WU7"/>
@@ -34,9 +34,11 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dzZ-AD-3p9" secondAttribute="bottom" id="RDl-yJ-YG8"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dzZ-AD-3p9" secondAttribute="bottom" constant="60" id="RDl-yJ-YG8">
+                                <variation key="heightClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstItem="9jR-ij-mAW" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ddG-PG-6hF"/>
                             <constraint firstAttribute="bottom" secondItem="9jR-ij-mAW" secondAttribute="bottom" id="dpZ-uT-8b8"/>
                             <constraint firstItem="9jR-ij-mAW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gRH-ZT-XXg"/>
@@ -55,9 +57,6 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
