@@ -9,16 +9,15 @@ import AVFoundation
 import Photos
 import UIKit
 
-// Camera code adapted from @gwinyai at https://stackoverflow.com/a/41698917 and Apple's AVCam: Building a Camera App
+// Camera code adapted from Apple's AVCam: Building a Camera App
 // https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/avcam_building_a_camera_app
-class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
+class RecorderViewController: UIViewController {
     @IBOutlet var cameraPreviewView: PreviewView!
     @IBOutlet var recordButton: RecordButton!
 
     let captureSession = AVCaptureSession()
 
-    let movieDataOutput = AVCaptureVideoDataOutput()
-    let movieFileOutput = AVCaptureMovieFileOutput()
+    let videoDataOutput = AVCaptureVideoDataOutput()
     
     // Session Management variables
     private enum SessionSetupResult {
@@ -31,6 +30,8 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
     
     // Communicate with the session and other session objects on this queue.
     private let sessionQueue = DispatchQueue(label: "session queue")
+    let sampleBufferQueue = DispatchQueue.global(qos: .userInteractive)
+
     
     private var setupResult: SessionSetupResult = .success
     
@@ -47,11 +48,6 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
         return view.window?.windowScene?.interfaceOrientation ?? .unknown
     }
     
-    override var shouldAutorotate: Bool {
-        // Disable autorotation of the interface when recording is in progress.
-        return !movieFileOutput.isRecording
-    }
-    
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
@@ -59,6 +55,7 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
         
         cameraPreviewView.session = captureSession
         recordButton.delegate = self
+        videoDataOutput.setSampleBufferDelegate(self, queue: sampleBufferQueue)
         
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
@@ -218,119 +215,24 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
             return
         }
         
-        if captureSession.canAddOutput(movieFileOutput) {
-            captureSession.addOutput(movieFileOutput)
-        } else {
-            print("Couldn't add movie file input to the session.")
-            setupResult = .configurationFailed
-            captureSession.commitConfiguration()
-            return
-        }
-        
-        if captureSession.canAddOutput(movieDataOutput) {
-            captureSession.addOutput(movieDataOutput)
-        } else {
-            print("Couldn't add movie data input to the session.")
-            setupResult = .configurationFailed
-            captureSession.commitConfiguration()
-            return
-        }
-        
         captureSession.commitConfiguration()
     }
     
     // MARK: Recording
 
     func toggleRecording() {
-        let videoPreviewLayerOrientation = cameraPreviewView.videoPreviewLayer.connection?.videoOrientation
-        
-        sessionQueue.async {
-            if !self.movieFileOutput.isRecording {
-                if UIDevice.current.isMultitaskingSupported {
-                    self.backgroundRecordingID = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
-                }
-                
-                // Update the orientation on the movie file output video connection before recording.
-                let movieFileOutputConnection = self.movieFileOutput.connection(with: .video)
-                movieFileOutputConnection?.videoOrientation = videoPreviewLayerOrientation!
-                
-                let availableVideoCodecTypes = self.movieFileOutput.availableVideoCodecTypes
-                
-                if availableVideoCodecTypes.contains(.hevc) {
-                    self.movieFileOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.hevc], for: movieFileOutputConnection!)
-                }
-                
-                // Start recording video to a temporary file.
-                let outputFileName = NSUUID().uuidString
-                let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
-                self.movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
+        if self.recordButton.isSelected {
+            if captureSession.canAddOutput(videoDataOutput) {
+                print("Adding data output")
+                captureSession.addOutput(videoDataOutput)
             } else {
-                self.movieFileOutput.stopRecording()
-            }
-        }
-    }
-    
-    /// - Tag: DidStartRecording
-    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
-        print("DID START RECORDING")
-    }
-    
-    /// - Tag: DidFinishRecording
-    func fileOutput(_ output: AVCaptureFileOutput,
-                    didFinishRecordingTo outputFileURL: URL,
-                    from connections: [AVCaptureConnection],
-                    error: Error?)
-    {
-        // Note: Because we use a unique file path for each recording, a new recording won't overwrite a recording mid-save.
-        func cleanup() {
-            let path = outputFileURL.path
-            if FileManager.default.fileExists(atPath: path) {
-                do {
-                    try FileManager.default.removeItem(atPath: path)
-                } catch {
-                    print("Could not remove file at url: \(outputFileURL)")
-                }
-            }
-            
-            if let currentBackgroundRecordingID = backgroundRecordingID {
-                backgroundRecordingID = UIBackgroundTaskIdentifier.invalid
-                
-                if currentBackgroundRecordingID != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(currentBackgroundRecordingID)
-                }
-            }
-        }
-        
-        var success = true
-        
-        if error != nil {
-            print("Movie file finishing error: \(String(describing: error))")
-            success = (((error! as NSError).userInfo[AVErrorRecordingSuccessfullyFinishedKey] as AnyObject).boolValue)!
-            recordButton.isSelected = false
-        }
-        
-        if success {
-            // Check the authorization status.
-            PHPhotoLibrary.requestAuthorization { status in
-                if status == .authorized {
-                    // Save the movie file to the photo library and cleanup.
-                    PHPhotoLibrary.shared().performChanges({
-                        let options = PHAssetResourceCreationOptions()
-                        options.shouldMoveFile = true
-                        let creationRequest = PHAssetCreationRequest.forAsset()
-                        creationRequest.addResource(with: .video, fileURL: outputFileURL, options: options)
-                    }, completionHandler: { success, error in
-                        if !success {
-                            print("AVCam couldn't save the movie to your photo library: \(String(describing: error))")
-                        }
-                        cleanup()
-                    })
-                } else {
-                    cleanup()
-                }
+                print("Couldn't add video data input to the session.")
+                setupResult = .configurationFailed
+                captureSession.commitConfiguration()
+                return
             }
         } else {
-            cleanup()
+            self.captureSession.removeOutput(self.videoDataOutput)
         }
     }
 }
@@ -338,5 +240,11 @@ class RecorderViewController: UIViewController, AVCaptureFileOutputRecordingDele
 extension RecorderViewController: RecordButtonDelegate {
     func recordButtonTapped(_ button: RecordButton) {
         toggleRecording()
+    }
+}
+
+extension RecorderViewController : AVCaptureVideoDataOutputSampleBufferDelegate {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        print("Camera was able to capture a frame:", Date())
     }
 }
