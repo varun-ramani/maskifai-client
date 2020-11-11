@@ -31,13 +31,30 @@ class ServerHandler: WebSocketDelegate {
   var socket: WebSocket!
   
   static let shared: ServerHandler = ServerHandler()
+  static var connected = false
   
   private init() {
-    var request = URLRequest(url: URL(string: NGROK_URL)!)
-    request.timeoutInterval = 5
-    socket = WebSocket(request: request)
-    socket.delegate = self
-    socket.connect()
+    connect()
+  }
+  
+  func connect() {
+    if !ServerHandler.connected {
+      var request = URLRequest(url: URL(string: NGROK_URL)!)
+      request.timeoutInterval = 5
+      socket = WebSocket(request: request)
+      socket.delegate = self
+      socket.connect()
+      
+      ServerHandler.connected = true
+    }
+  }
+  
+  func disconnect() {
+    if ServerHandler.connected {
+      socket.disconnect()
+      
+      ServerHandler.connected = false
+    }
   }
   
   // todo: socket.disconnect
