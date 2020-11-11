@@ -9,7 +9,7 @@ import Foundation
 import Starscream
 import AVFoundation
 
-let NGROK_URL = ""
+let NGROK_URL = "https://7d18ed560826.ngrok.io"
 
 // code translated from https://stackoverflow.com/a/6197348/6342812
 func imageToBuffer(_ source: CMSampleBuffer) -> Data {
@@ -20,11 +20,11 @@ func imageToBuffer(_ source: CMSampleBuffer) -> Data {
     let bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer)
     let width = CVPixelBufferGetWidth(imageBuffer)
     let height = CVPixelBufferGetHeight(imageBuffer)
-    var src_buff = CVPixelBufferGetBaseAddress(imageBuffer)
-
+    let src_buff = CVPixelBufferGetBaseAddress(imageBuffer)
+  
     CVPixelBufferUnlockBaseAddress(imageBuffer as CVPixelBuffer, [])
 
-    return Data(bytes: &src_buff, count: bytesPerRow * height)
+    return Data(bytes: src_buff!, count: bytesPerRow * height)
 }
 
 class ServerHandler: WebSocketDelegate {
