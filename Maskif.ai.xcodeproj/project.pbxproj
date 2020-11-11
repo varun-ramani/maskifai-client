@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		206E67DF255C464500B0DED9 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 206E67DE255C464500B0DED9 /* Starscream */; };
 		209884AB255B8773007C1828 /* ServerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209884AA255B8773007C1828 /* ServerHandler.swift */; };
-		209884AF255B8978007C1828 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 209884AE255B8978007C1828 /* Starscream */; };
 		E34AD289255A3ED200D7C55D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AD288255A3ED200D7C55D /* AppDelegate.swift */; };
 		E34AD28B255A3ED200D7C55D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AD28A255A3ED200D7C55D /* SceneDelegate.swift */; };
 		E34AD28D255A3ED200D7C55D /* RecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AD28C255A3ED200D7C55D /* RecorderViewController.swift */; };
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				209884AF255B8978007C1828 /* Starscream in Frameworks */,
+				206E67DF255C464500B0DED9 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 			);
 			name = Maskif.ai;
 			packageProductDependencies = (
-				209884AE255B8978007C1828 /* Starscream */,
+				206E67DE255C464500B0DED9 /* Starscream */,
 			);
 			productName = Maskif.ai;
 			productReference = E34AD285255A3ED200D7C55D /* Maskif.ai.app */;
@@ -128,7 +128,7 @@
 			);
 			mainGroup = E34AD27C255A3ED200D7C55D;
 			packageReferences = (
-				209884AD255B8978007C1828 /* XCRemoteSwiftPackageReference "Starscream" */,
+				206E67DD255C464500B0DED9 /* XCRemoteSwiftPackageReference "Starscream" */,
 			);
 			productRefGroup = E34AD286255A3ED200D7C55D /* Products */;
 			projectDirPath = "";
@@ -367,7 +367,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		209884AD255B8978007C1828 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+		206E67DD255C464500B0DED9 /* XCRemoteSwiftPackageReference "Starscream" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/daltoniam/Starscream.git";
 			requirement = {
@@ -378,9 +378,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		209884AE255B8978007C1828 /* Starscream */ = {
+		206E67DE255C464500B0DED9 /* Starscream */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 209884AD255B8978007C1828 /* XCRemoteSwiftPackageReference "Starscream" */;
+			package = 206E67DD255C464500B0DED9 /* XCRemoteSwiftPackageReference "Starscream" */;
 			productName = Starscream;
 		};
 /* End XCSwiftPackageProductDependency section */
