@@ -14,25 +14,8 @@ let NGROK_URL = "https://7d18ed560826.ngrok.io/"
 
 // code translated from https://stackoverflow.com/a/6197348/6342812
 func imageBufferToData(_ source: CMSampleBuffer) -> Data {
-    let imageBuffer = CMSampleBufferGetImageBuffer(source)!
-    let ciimage = CIImage(cvPixelBuffer: imageBuffer)
-    let context: CIContext = CIContext(options: nil)
-    let cgImage = context.createCGImage(ciimage, from: ciimage.extent)!
-    let image = UIImage(cgImage: cgImage)
-    return image.pngData()!
-
-//    CVPixelBufferLockBaseAddress(imageBuffer, [])
-//
-//    let bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer)
-//    let width = CVPixelBufferGetWidth(imageBuffer)
-//    let height = CVPixelBufferGetHeight(imageBuffer)
-//    let src_buff = CVPixelBufferGetBaseAddress(imageBuffer)
-//
-//    let data = Data(bytes: src_buff!, count: bytesPerRow * height)
-//
-//    CVPixelBufferUnlockBaseAddress(imageBuffer as CVPixelBuffer, [])
-//
-//    return data
+    let ciimage = CIImage(cvPixelBuffer: CMSampleBufferGetImageBuffer(source)!)
+    return UIImage(cgImage: CIContext(options: nil).createCGImage(ciimage, from: ciimage.extent)!).pngData()!
 }
 
 class ServerHandler {
