@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		209884AB255B8773007C1828 /* ServerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209884AA255B8773007C1828 /* ServerHandler.swift */; };
+		209884AF255B8978007C1828 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 209884AE255B8978007C1828 /* Starscream */; };
 		E34AD289255A3ED200D7C55D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AD288255A3ED200D7C55D /* AppDelegate.swift */; };
 		E34AD28B255A3ED200D7C55D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AD28A255A3ED200D7C55D /* SceneDelegate.swift */; };
 		E34AD28D255A3ED200D7C55D /* RecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34AD28C255A3ED200D7C55D /* RecorderViewController.swift */; };
@@ -19,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		209884AA255B8773007C1828 /* ServerHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerHandler.swift; sourceTree = "<group>"; };
 		E34AD285255A3ED200D7C55D /* Maskif.ai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maskif.ai.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E34AD288255A3ED200D7C55D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E34AD28A255A3ED200D7C55D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				209884AF255B8978007C1828 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +76,7 @@
 				E34AD296255A3ED500D7C55D /* Info.plist */,
 				E3D42246255AF12000199097 /* AVCaptureVideoOrientation+Init.swift */,
 				E3D42249255AF18D00199097 /* PreviewView.swift */,
+				209884AA255B8773007C1828 /* ServerHandler.swift */,
 			);
 			path = Maskif.ai;
 			sourceTree = "<group>";
@@ -92,6 +97,9 @@
 			dependencies = (
 			);
 			name = Maskif.ai;
+			packageProductDependencies = (
+				209884AE255B8978007C1828 /* Starscream */,
+			);
 			productName = Maskif.ai;
 			productReference = E34AD285255A3ED200D7C55D /* Maskif.ai.app */;
 			productType = "com.apple.product-type.application";
@@ -119,6 +127,9 @@
 				Base,
 			);
 			mainGroup = E34AD27C255A3ED200D7C55D;
+			packageReferences = (
+				209884AD255B8978007C1828 /* XCRemoteSwiftPackageReference "Starscream" */,
+			);
 			productRefGroup = E34AD286255A3ED200D7C55D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -149,6 +160,7 @@
 				E34AD28D255A3ED200D7C55D /* RecorderViewController.swift in Sources */,
 				E34AD289255A3ED200D7C55D /* AppDelegate.swift in Sources */,
 				E3D4224A255AF18D00199097 /* PreviewView.swift in Sources */,
+				209884AB255B8773007C1828 /* ServerHandler.swift in Sources */,
 				E34AD28B255A3ED200D7C55D /* SceneDelegate.swift in Sources */,
 				E3D42247255AF12000199097 /* AVCaptureVideoOrientation+Init.swift in Sources */,
 				E3D42244255AE4F900199097 /* RecordButton.swift in Sources */,
@@ -353,6 +365,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		209884AD255B8978007C1828 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		209884AE255B8978007C1828 /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 209884AD255B8978007C1828 /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E34AD27D255A3ED200D7C55D /* Project object */;
 }
