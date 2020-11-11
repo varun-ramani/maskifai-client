@@ -38,6 +38,7 @@ class RecordButton: UIButton {
         tintColor = isSelected ? .systemRed : .systemGray
         addTarget(self, action: #selector(setSelected), for: .touchUpInside)
     }
+  
     @objc func setSelected() {
         isSelected = !isSelected
         delegate?.recordButtonTapped(self)
