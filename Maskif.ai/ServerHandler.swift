@@ -10,7 +10,7 @@ import SocketIO
 import AVFoundation
 import UIKit
 
-let NGROK_URL = "https://7d18ed560826.ngrok.io/"
+let NGROK_URL = "https://611e8d9395c1.ngrok.io"
 
 // code translated from https://stackoverflow.com/a/6197348/6342812
 // help from https://stackoverflow.com/questions/42997462/convert-cmsamplebuffer-to-uiimage
@@ -20,14 +20,15 @@ func imageBufferToData(_ source: CMSampleBuffer) -> Data {
 }
 
 class ServerHandler {
-  let manager = SocketManager(socketURL: URL(string: NGROK_URL)!, config: [.log(true), .compress])
-  var socket: SocketIOClient!
+    let manager = SocketManager(socketURL: URL(string: NGROK_URL)!, config: [.compress])
+    var socket: SocketIOClient!
   
-  static let shared: ServerHandler = ServerHandler()
-  static var connected = false
+    static let shared: ServerHandler = ServerHandler()
+    static var connected = false
+    var received = true
   
   private init() {
-    connect()
+//    connect()
   }
   
   func connect() {
@@ -36,15 +37,24 @@ class ServerHandler {
 
       socket.on(clientEvent: .connect) {data, ack in
           print("socket connected")
+          ServerHandler.connected = true
       }
       
-      socket.onAny { (event) in
-        print("The event is: \(event.event)")
+      socket.on("faces") {data, ack in
+          self.received = true
+          guard let json_str = data[0] as? String else { return }
+          do {
+              let json = try JSONSerialization.jsonObject(with: json_str.data(using: .utf8)!)
+          
+              print("received", Date.timeIntervalSinceReferenceDate + Date.timeIntervalBetween1970AndReferenceDate, json)
+          } catch {
+              print("JSon error", error)
+          }
       }
       
       socket.connect()
       
-      ServerHandler.connected = true
+      
     }
   }
   
@@ -57,6 +67,10 @@ class ServerHandler {
   }
   
   func sendCameraFrame(_ buffer: CMSampleBuffer) {
-    socket.emit("image", imageBufferToData(buffer))
+    if ServerHandler.connected && received {
+        print("sending", Date.timeIntervalSinceReferenceDate + Date.timeIntervalBetween1970AndReferenceDate)
+        socket.emit("image", imageBufferToData(buffer))
+        received = false
+    }
   }
 }

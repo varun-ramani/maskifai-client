@@ -245,7 +245,7 @@ extension RecorderViewController: RecordButtonDelegate {
 
 extension RecorderViewController : AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        print("Camera was able to capture a frame:", Date())
+      // print("Camera was able to capture a frame:", Date())
       ServerHandler.shared.sendCameraFrame(sampleBuffer)
     }
 }
