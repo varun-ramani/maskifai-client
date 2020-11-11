@@ -13,6 +13,7 @@ import UIKit
 let NGROK_URL = "https://7d18ed560826.ngrok.io/"
 
 // code translated from https://stackoverflow.com/a/6197348/6342812
+// help from https://stackoverflow.com/questions/42997462/convert-cmsamplebuffer-to-uiimage
 func imageBufferToData(_ source: CMSampleBuffer) -> Data {
     let ciimage = CIImage(cvPixelBuffer: CMSampleBufferGetImageBuffer(source)!)
     return UIImage(cgImage: CIContext(options: nil).createCGImage(ciimage, from: ciimage.extent)!).pngData()!
