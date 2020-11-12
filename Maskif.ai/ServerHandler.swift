@@ -10,13 +10,19 @@ import SocketIO
 import AVFoundation
 import UIKit
 
-let NGROK_URL = "https://611e8d9395c1.ngrok.io"
+let NGROK_URL = "https://7aac9c19543f.ngrok.io"
 
 // code translated from https://stackoverflow.com/a/6197348/6342812
 // help from https://stackoverflow.com/questions/42997462/convert-cmsamplebuffer-to-uiimage
 func imageBufferToData(_ source: CMSampleBuffer) -> Data {
     let ciimage = CIImage(cvPixelBuffer: CMSampleBufferGetImageBuffer(source)!)
     return UIImage(cgImage: CIContext(options: nil).createCGImage(ciimage, from: ciimage.extent)!).pngData()!
+}
+
+extension Date {
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
 }
 
 class ServerHandler {
@@ -26,6 +32,8 @@ class ServerHandler {
     static let shared: ServerHandler = ServerHandler()
     static var connected = false
     var received = true
+    
+    var last_sent = Date()
   
   private init() {
 //    connect()
@@ -46,15 +54,13 @@ class ServerHandler {
           do {
               let json = try JSONSerialization.jsonObject(with: json_str.data(using: .utf8)!)
           
-              print("received", Date.timeIntervalSinceReferenceDate + Date.timeIntervalBetween1970AndReferenceDate, json)
+//              print("received", Date.timeIntervalSinceReferenceDate + Date.timeIntervalBetween1970AndReferenceDate, json)
           } catch {
               print("JSon error", error)
           }
       }
       
       socket.connect()
-      
-      
     }
   }
   
@@ -67,8 +73,10 @@ class ServerHandler {
   }
   
   func sendCameraFrame(_ buffer: CMSampleBuffer) {
-    if ServerHandler.connected && received {
-        print("sending", Date.timeIntervalSinceReferenceDate + Date.timeIntervalBetween1970AndReferenceDate)
+    let now = Date()
+    if ServerHandler.connected { /*  && now - last_sent > 0.5 */
+        last_sent = now
+//        print("sending", Date.timeIntervalSinceReferenceDate + Date.timeIntervalBetween1970AndReferenceDate)
         socket.emit("image", imageBufferToData(buffer))
         received = false
     }

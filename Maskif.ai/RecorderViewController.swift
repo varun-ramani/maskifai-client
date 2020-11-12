@@ -167,7 +167,7 @@ class RecorderViewController: UIViewController {
         
         captureSession.beginConfiguration()
         
-        captureSession.sessionPreset = .high
+        captureSession.sessionPreset = .low
         
         // Add video input.
         do {
