@@ -246,6 +246,33 @@ extension RecorderViewController: RecordButtonDelegate {
 extension RecorderViewController : AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
       // print("Camera was able to capture a frame:", Date())
-      ServerHandler.shared.sendCameraFrame(sampleBuffer)
+        //1. Create the alert controller.
+//        print("captured output", NGROK_URL)
+        if NGROK_URL == "" {
+            NGROK_URL = "Q"
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Enter server id", message: "", preferredStyle: .alert)
+
+                //2. Add the text field. You can configure it however you need.
+                alert.addTextField { (textField) in
+                    textField.text = ""
+                }
+
+                // 3. Grab the value from the text field, and print it when the user clicks OK.
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                    let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+                    print("Text field: \(textField!.text!)")
+                    NGROK_URL = "https://\(textField!.text!).ngrok.io"
+                    ServerHandler.connected = false
+                    ServerHandler.shared.connect {}
+                }))
+
+                // 4. Present the alert.
+                self.present(alert, animated: true, completion: nil)
+            }
+            
+        } else if NGROK_URL != "Q" {
+            ServerHandler.shared.sendCameraFrame(sampleBuffer)
+        }
     }
 }

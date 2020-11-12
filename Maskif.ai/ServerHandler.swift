@@ -10,7 +10,7 @@ import SocketIO
 import AVFoundation
 import UIKit
 
-let NGROK_URL = "https://7aac9c19543f.ngrok.io"
+var NGROK_URL = "" // https://7aac9c19543f.ngrok.io
 
 // code translated from https://stackoverflow.com/a/6197348/6342812
 // help from https://stackoverflow.com/questions/42997462/convert-cmsamplebuffer-to-uiimage
@@ -26,8 +26,8 @@ extension Date {
 }
 
 class ServerHandler {
-    let manager = SocketManager(socketURL: URL(string: NGROK_URL)!, config: [.compress])
     var socket: SocketIOClient!
+    var manager: SocketManager!
   
     static let shared: ServerHandler = ServerHandler()
     static var connected = false
@@ -39,28 +39,20 @@ class ServerHandler {
 //    connect()
   }
   
-  func connect() {
-    if !ServerHandler.connected {
-      socket = manager.defaultSocket
+  func connect(completion: @escaping () -> Void) {
+    print("called connect")
+    if !ServerHandler.connected && NGROK_URL != "" {
+        print("hi")
+        manager = SocketManager(socketURL: URL(string: NGROK_URL)!, config: [.compress])
+        socket = manager.defaultSocket
 
-      socket.on(clientEvent: .connect) {data, ack in
-          print("socket connected")
-          ServerHandler.connected = true
-      }
+        socket.on(clientEvent: .connect) {data, ack in
+            print("socket connected")
+            ServerHandler.connected = true
+            completion()
+        }
       
-      socket.on("faces") {data, ack in
-          self.received = true
-          guard let json_str = data[0] as? String else { return }
-          do {
-              let json = try JSONSerialization.jsonObject(with: json_str.data(using: .utf8)!)
-          
-//              print("received", Date.timeIntervalSinceReferenceDate + Date.timeIntervalBetween1970AndReferenceDate, json)
-          } catch {
-              print("JSon error", error)
-          }
-      }
-      
-      socket.connect()
+        socket.connect()
     }
   }
   

@@ -42,5 +42,6 @@ class RecordButton: UIButton {
     @objc func setSelected() {
         isSelected = !isSelected
         delegate?.recordButtonTapped(self)
+        
     }
 }
